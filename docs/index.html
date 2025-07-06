@@ -40,7 +40,6 @@
 <table>
     <thead>
         <tr>
-            <th>COD PRODUCTO</th>
             <th>PRODUCTO</th>
             <th>PRECIO UNITARIO</th>
             <th>CANTIDAD</th>
@@ -70,10 +69,9 @@
     document.getElementById("abonado").innerText = urlParams.get("abonado") || "0.00";
     document.getElementById("saldo").innerText = urlParams.get("saldo") || "0.00";
 
-    function populateTable(elementId, codigos, productos, precios, cantidades) {
+    function populateTable(elementId, productos, precios, cantidades) {
         let tableBody = document.getElementById(elementId);
-        let codigosArray = codigos ? codigos.split(",").map(i => i.trim()) : [];
-        let productosArray = productos ? productos.split(",").map(i => i.trim()) : [];
+               let productosArray = productos ? productos.split(",").map(i => i.trim()) : [];
         let preciosArray = precios ? precios.split(",").map(i => parseFloat(i.trim())) : [];
         let cantidadesArray = cantidades ? cantidades.split(",").map(i => parseInt(i.trim())) : [];
 
@@ -85,7 +83,7 @@
 
             let row = document.createElement("tr");
             row.innerHTML = `
-                <td>${codigosArray[i] || "-"}</td>
+               
                 <td>${productosArray[i]}</td>
                 <td>$${precioUnitario.toFixed(2)}</td>
                 <td>${cantidad}</td>
@@ -96,8 +94,7 @@
     }
     populateTable(
         "detalle",
-        urlParams.get("codigos"),
-        urlParams.get("productos"),
+                urlParams.get("productos"),
         urlParams.get("precios"),
         urlParams.get("cantidades")
     );
