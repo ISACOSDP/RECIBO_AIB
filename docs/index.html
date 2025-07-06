@@ -21,7 +21,12 @@
     .label { font-weight: bold; }
     table { width: 100%; max-width: 180mm; margin: auto; border-collapse: collapse; margin-top: 1em; font-size: 14px; }
     th, td { padding: 6px; border: 1px solid #000; text-align: center; }
-    th { background: #0056b3; color: #fff; } /* Encabezado azul y texto blanco */
+    th { 
+    background: #0056b3; 
+    color: #fff; 
+    -webkit-print-color-adjust: exact; /* Chrome, Edge */
+    print-color-adjust: exact;         /* Firefox */
+} /* Encabezado azul y texto blanco */
     .totales { font-size: 16px; font-weight: bold; text-align: right; margin-top: 1em; max-width: 180mm; margin-left: auto; margin-right: auto; }
 
 
