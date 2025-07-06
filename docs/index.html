@@ -23,7 +23,8 @@
     th, td { padding: 6px; border: 1px solid #000; text-align: center; }
     th { background: #0056b3; color: #fff; } /* Encabezado azul y texto blanco */
     .totales { font-size: 16px; font-weight: bold; text-align: right; margin-top: 1em; max-width: 180mm; margin-left: auto; margin-right: auto; }
-    .nota { margin-top: 1em; font-size: 14px; max-width: 180mm; margin-left: auto; margin-right: auto; }
+
+
 </style>
 </head>
 <body>
@@ -57,7 +58,7 @@
     <p>ABONADO: $<span id="abonado"></span></p>
     <p>SALDO: $<span id="saldo"></span></p>
 </div>
-<div class="nota">NOTA: <span id="nota"></span></div>
+
 <div style="text-align: center; margin-top: 20px;">
     <button onclick="window.print()" style="font-size: 16px; padding: 10px 20px; cursor: pointer;">IMPRIMIR RECIBO</button>
 </div>
@@ -72,7 +73,7 @@ document.getElementById("iva").innerText = urlParams.get("iva") || "0.00";
 document.getElementById("total").innerText = urlParams.get("total") || "0.00";
 document.getElementById("abonado").innerText = urlParams.get("abonado") || "0.00";
 document.getElementById("saldo").innerText = urlParams.get("saldo") || "0.00";
-document.getElementById("nota").innerText = urlParams.get("nota") || "";
+
 function populateTable(elementId, productos, precios, cantidades, totales) {
     let tableBody = document.getElementById(elementId);
     let productosArray = productos ? productos.split(",").map(i => i.trim()) : [];
