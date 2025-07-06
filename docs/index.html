@@ -1,201 +1,106 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Recibo de Pago - AIB</title>
-    <style>
-        @media print {
-            @page {
-                size: A4;
-                margin: 12mm;
-            }
-            body {
-                margin: 0;
-            }
-            button { display: none; }
-            table { max-width: 180mm; margin: auto; }
-        }
-
-        body { 
-            font-family: Arial, sans-serif; 
-            margin: 1em; 
-            background: #fff; 
-            color: #000; 
-        }
-
-        .header-container {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-bottom: 10px;
-        }
-
-        .logo { 
-            max-width: 120px; 
-        }
-
-        .header-text {
-            text-align: center; 
-            font-size: 20px; 
-            font-weight: bold; 
-            flex-grow: 1;
-        }
-
-        .recibo-numero {
-            margin-top: 10px; 
-            font-size: 22px; 
-            font-weight: bold; 
-            text-align: center;
-        }
-
-        .section-info { 
-            margin-bottom: 1em; 
-            font-size: 16px;
-        }
-
-        .section-info .field {
-            margin: 5px 0; 
-            font-size: 16px; 
-        }
-
-        .label { 
-            font-weight: bold; 
-        }
-
-        table { 
-            width: 100%; 
-            max-width: 180mm; 
-            margin: auto; 
-            border-collapse: collapse; 
-            margin-top: 1em; 
-            font-size: 14px; 
-        }
-
-        th, td { 
-            padding: 6px; 
-            border: 1px solid #000; 
-            text-align: center; 
-        }
-
-        th { 
-            background: #f0f0f0; 
-        }
-
-        .totales { 
-            font-size: 16px; 
-            font-weight: bold; 
-            text-align: right; 
-            margin-top: 1em; 
-            max-width: 180mm; 
-            margin-left: auto; 
-            margin-right: auto; 
-        }
-
-        .nota { 
-            margin-top: 1em; 
-            font-size: 14px; 
-            max-width: 180mm; 
-            margin-left: auto; 
-            margin-right: auto; 
-        }
-    </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Recibo de Pago - AIB</title>
+<style>
+    @media print {
+        @page { size: A4; margin: 12mm; }
+        body { margin: 0; }
+        button { display: none; }
+        table { max-width: 180mm; margin: auto; }
+    }
+    body { font-family: Arial, sans-serif; margin: 1em; background: #fff; color: #000; }
+    .header-container { display: flex; align-items: center; justify-content: space-between; margin-bottom: 10px; }
+    .logo { max-width: 120px; }
+    .header-text { text-align: center; font-size: 20px; font-weight: bold; flex-grow: 1; }
+    .recibo-numero { margin-top: 10px; font-size: 22px; font-weight: bold; text-align: center; }
+    .section-info { margin-bottom: 1em; font-size: 16px; }
+    .section-info .field { margin: 5px 0; font-size: 16px; }
+    .label { font-weight: bold; }
+    table { width: 100%; max-width: 180mm; margin: auto; border-collapse: collapse; margin-top: 1em; font-size: 14px; }
+    th, td { padding: 6px; border: 1px solid #000; text-align: center; }
+    th { background: #f0f0f0; }
+    .totales { font-size: 16px; font-weight: bold; text-align: right; margin-top: 1em; max-width: 180mm; margin-left: auto; margin-right: auto; }
+</style>
 </head>
 <body>
-
-    <div class="header-container">
-<img class="logo" src="https://raw.githubusercontent.com/ISACOSDP/RECIBO_AIB/main/docs/LOGO%20AIB.png" alt="LOGO AIB">
-
-      
-  <div class="header-text">
-            AIB<br>
-            QUITO<br>
-             E4D Y LA COCHA<br>
-            0979225720 / 0979274832
-
-            <div class="recibo-numero">
-                RECIBO N°: <span id="factura"></span>
-            </div>
-        </div>
+<div class="header-container">
+    <img class="logo" src="https://raw.githubusercontent.com/ISACOSDP/RECIBO_AIB/main/docs/LOGO%20AIB.png" alt="LOGO AIB">
+    <div class="header-text">
+        AIB<br>QUITO<br>E4D Y LA COCHA<br>0979225720 / 0979274832
+        <div class="recibo-numero">RECIBO N°: <span id="factura"></span></div>
     </div>
+</div>
+<div class="section-info">
+    <div class="field"><span class="label">FECHA:</span> <span id="fecha"></span></div>
+    <div class="field"><span class="label">CLIENTE:</span> <span id="cliente"></span></div>
+</div>
+<table>
+    <thead>
+        <tr>
+            <th>COD PRODUCTO</th>
+            <th>PRODUCTO</th>
+            <th>PRECIO UNITARIO</th>
+            <th>CANTIDAD</th>
+            <th>TOTAL</th>
+        </tr>
+    </thead>
+    <tbody id="detalle"></tbody>
+</table>
+<div class="totales">
+    <p>SUBTOTAL: $<span id="subtotal"></span></p>
+    <p>IVA (15%): $<span id="iva"></span></p>
+    <p>TOTAL: $<span id="total"></span></p>
+    <p>ABONADO: $<span id="abonado"></span></p>
+    <p>SALDO: $<span id="saldo"></span></p>
+</div>
+<div style="text-align: center; margin-top: 20px;">
+    <button onclick="window.print()" style="font-size: 16px; padding: 10px 20px; cursor: pointer;">IMPRIMIR RECIBO</button>
+</div>
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    document.getElementById("factura").innerText = urlParams.get("factura") || "N/A";
+    document.getElementById("cliente").innerText = urlParams.get("cliente") || "N/A";
+    document.getElementById("fecha").innerText = urlParams.get("fecha") || "N/A";
+    document.getElementById("subtotal").innerText = urlParams.get("subtotal") || "0.00";
+    document.getElementById("iva").innerText = urlParams.get("iva") || "0.00";
+    document.getElementById("total").innerText = urlParams.get("total") || "0.00";
+    document.getElementById("abonado").innerText = urlParams.get("abonado") || "0.00";
+    document.getElementById("saldo").innerText = urlParams.get("saldo") || "0.00";
 
-    <div class="section-info">
-        <div class="field"><span class="label">FECHA:</span> <span id="fecha"></span></div>
-        <div class="field"><span class="label">CLIENTE:</span> <span id="cliente"></span></div>
-    </div>
+    function populateTable(elementId, codigos, productos, precios, cantidades) {
+        let tableBody = document.getElementById(elementId);
+        let codigosArray = codigos ? codigos.split(",").map(i => i.trim()) : [];
+        let productosArray = productos ? productos.split(",").map(i => i.trim()) : [];
+        let preciosArray = precios ? precios.split(",").map(i => parseFloat(i.trim())) : [];
+        let cantidadesArray = cantidades ? cantidades.split(",").map(i => parseInt(i.trim())) : [];
 
-    <table>
-        <thead>
-            <tr>
-                <th>COD PRODUCTO</th>
-                <th>PRODUCTO</th>
-                <th>PRECIO UNITARIO</th>
-                <th>CANTIDAD</th>
-                <th>TOTAL</th>
-            </tr>
-        </thead>
-        <tbody id="detalle"></tbody>
-    </table>
+        tableBody.innerHTML = "";
+        for (let i = 0; i < productosArray.length; i++) {
+            let precioUnitario = preciosArray[i] || 0;
+            let cantidad = cantidadesArray[i] || 0;
+            let totalLinea = precioUnitario * cantidad;
 
-    <div class="totales">
-        <p>TOTAL: $<span id="total"></span></p>
-        <p>ABONADO: $<span id="abonado"></span></p>
-        <p>SALDO: $<span id="saldo"></span></p>
-    </div>
-
-    <div class="nota">
-        NOTA: <span id="nota"></span>
-    </div>
-
-    <div style="text-align: center; margin-top: 20px;">
-        <button onclick="window.print()" style="font-size: 16px; padding: 10px 20px; cursor: pointer;">
-            IMPRIMIR RECIBO
-        </button>
-    </div>
-
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        document.getElementById("factura").innerText = urlParams.get("factura") || "N/A";
-        document.getElementById("cliente").innerText = urlParams.get("cliente") || "N/A";
-        document.getElementById("fecha").innerText = urlParams.get("fecha") || "N/A";
-        document.getElementById("total").innerText = urlParams.get("total") || "0.00";
-        document.getElementById("abonado").innerText = urlParams.get("abonado") || "0.00";
-        document.getElementById("saldo").innerText = urlParams.get("saldo") || "0.00";
-        document.getElementById("nota").innerText = urlParams.get("nota") || "";
-
-        function populateTable(elementId, codigos, productos, precios, cantidades) {
-            let tableBody = document.getElementById(elementId);
-            let codigosArray = codigos ? codigos.split(",").map(i => i.trim()) : [];
-            let productosArray = productos ? productos.split(",").map(i => i.trim()) : [];
-            let preciosArray = precios ? precios.split(",").map(i => parseFloat(i.trim())) : [];
-            let cantidadesArray = cantidades ? cantidades.split(",").map(i => parseInt(i.trim())) : [];
-
-            tableBody.innerHTML = "";
-            for (let i = 0; i < productosArray.length; i++) {
-                let precioUnitario = preciosArray[i] || 0;
-                let cantidad = cantidadesArray[i] || 0;
-                let totalLinea = precioUnitario * cantidad;
-
-                let row = document.createElement("tr");
-                row.innerHTML = `
-                    <td>${codigosArray[i] || "-"}</td>
-                    <td>${productosArray[i]}</td>
-                    <td>$${precioUnitario.toFixed(2)}</td>
-                    <td>${cantidad}</td>
-                    <td>$${totalLinea.toFixed(2)}</td>
-                `;
-                tableBody.appendChild(row);
-            }
+            let row = document.createElement("tr");
+            row.innerHTML = `
+                <td>${codigosArray[i] || "-"}</td>
+                <td>${productosArray[i]}</td>
+                <td>$${precioUnitario.toFixed(2)}</td>
+                <td>${cantidad}</td>
+                <td>$${totalLinea.toFixed(2)}</td>
+            `;
+            tableBody.appendChild(row);
         }
-
-        populateTable(
-            "detalle",
-            urlParams.get("codigos"),
-            urlParams.get("productos"),
-            urlParams.get("precios"),
-            urlParams.get("cantidades")
-        );
-    </script>
-
+    }
+    populateTable(
+        "detalle",
+        urlParams.get("codigos"),
+        urlParams.get("productos"),
+        urlParams.get("precios"),
+        urlParams.get("cantidades")
+    );
+</script>
 </body>
 </html>
