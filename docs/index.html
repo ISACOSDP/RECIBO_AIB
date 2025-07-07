@@ -65,7 +65,7 @@
 const urlParams = new URLSearchParams(window.location.search);
 const tipoDoc = (urlParams.get("tipo_doc") || "RECIBO").toUpperCase();
 document.getElementById("tipo_doc_titulo").innerText =
-    (tipoDoc === "FACTURA") ? "FACTURA" :
+    (tipoDoc === "FACTURA") ? "RECIBO" :
     (tipoDoc === "PROFORMA") ? "PROFORMA" :
     "RECIBO";
 document.getElementById("factura").innerText = urlParams.get("factura") || "N/A";
