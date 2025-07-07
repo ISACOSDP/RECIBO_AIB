@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Recibo de Pago - AIB</title>
+<title>Documento - AIB</title>
 <style>
     @media print {
         @page { size: A4; margin: 12mm; }
@@ -19,32 +19,12 @@
     .section-info { margin-bottom: 1em; font-size: 16px; }
     .section-info .field { margin: 5px 0; font-size: 16px; }
     .label { font-weight: bold; }
-    table { width: 100%; max-width: 180mm; margin: auto; border-collapse: collapse; margin-top: 1em; font-size: 14px;box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-border-radius: 6px; }
+    table { width: 100%; max-width: 180mm; margin: auto; border-collapse: collapse; margin-top: 1em; font-size: 14px; box-shadow: 0 2px 8px rgba(0,0,0,0.1); border-radius: 6px; }
     th, td { padding: 6px; border: 1px solid #000; text-align: center; }
-    th { 
-    background: #0056b3; 
-    color: #fff; 
-    -webkit-print-color-adjust: exact; /* Chrome, Edge */
-    print-color-adjust: exact;         /* Firefox */
-} /* Encabezado azul y texto blanco */
+    th { background: #0056b3; color: #fff; -webkit-print-color-adjust: exact; print-color-adjust: exact; }
     .totales { font-size: 16px; font-weight: bold; text-align: right; margin-top: 1em; max-width: 180mm; margin-left: auto; margin-right: auto; }
-button {
-    background-color: #0056b3; /* azul corporativo */
-    color: #fff; /* texto blanco */
-    border: none;
-    padding: 10px 20px;
-    font-size: 16px;
-    cursor: pointer;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-button:hover {
-    background-color: #003366; /* azul más oscuro al pasar el mouse */
-}
-
-
+    button { background-color: #0056b3; color: #fff; border: none; padding: 10px 20px; font-size: 16px; cursor: pointer; border-radius: 5px; transition: background-color 0.3s ease; }
+    button:hover { background-color: #003366; }
 </style>
 </head>
 <body>
@@ -52,7 +32,7 @@ button:hover {
 <img class="logo" src="https://raw.githubusercontent.com/ISACOSDP/RECIBO_AIB/main/docs/LOGO%20AIB.png" alt="LOGO AIB">
 <div class="header-text">
     AIB<br>QUITO<br>E4D Y LA COCHA<br>0979225720 / 0979274832
-    <div class="recibo-numero">RECIBO N°: <span id="factura"></span></div>
+    <div class="recibo-numero"><span id="tipo_doc_titulo"></span> N°: <span id="factura"></span></div>
 </div>
 </div>
 <div class="section-info">
@@ -78,12 +58,16 @@ button:hover {
     <p>ABONADO: $<span id="abonado"></span></p>
     <p>SALDO: $<span id="saldo"></span></p>
 </div>
-
 <div style="text-align: center; margin-top: 20px;">
-    <button onclick="window.print()" style="font-size: 16px; padding: 10px 20px; cursor: pointer;">IMPRIMIR RECIBO</button>
+    <button onclick="window.print()">IMPRIMIR</button>
 </div>
 <script>
 const urlParams = new URLSearchParams(window.location.search);
+const tipoDoc = (urlParams.get("tipo_doc") || "RECIBO").toUpperCase();
+document.getElementById("tipo_doc_titulo").innerText =
+    (tipoDoc === "FACTURA") ? "FACTURA" :
+    (tipoDoc === "PROFORMA") ? "PROFORMA" :
+    "RECIBO";
 document.getElementById("factura").innerText = urlParams.get("factura") || "N/A";
 document.getElementById("cliente").innerText = urlParams.get("cliente") || "N/A";
 document.getElementById("ruc").innerText = urlParams.get("ruc") || "N/A";
@@ -93,7 +77,6 @@ document.getElementById("iva").innerText = urlParams.get("iva") || "0.00";
 document.getElementById("total").innerText = urlParams.get("total") || "0.00";
 document.getElementById("abonado").innerText = urlParams.get("abonado") || "0.00";
 document.getElementById("saldo").innerText = urlParams.get("saldo") || "0.00";
-
 function populateTable(elementId, productos, precios, cantidades, totales) {
     let tableBody = document.getElementById(elementId);
     let productosArray = productos ? productos.split(",").map(i => i.trim()) : [];
