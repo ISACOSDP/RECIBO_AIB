@@ -63,26 +63,36 @@
 </div>
 <script>
 const urlParams = new URLSearchParams(window.location.search);
+
 const tipoDoc = (urlParams.get("tipo_doc") || "RECIBO").toUpperCase();
 document.getElementById("tipo_doc_titulo").innerText =
     (tipoDoc === "FACTURA") ? "RECIBO" :
     (tipoDoc === "PROFORMA") ? "PROFORMA" :
     "RECIBO";
+
 document.getElementById("factura").innerText = urlParams.get("factura") || "N/A";
 document.getElementById("cliente").innerText = urlParams.get("cliente") || "N/A";
 document.getElementById("ruc").innerText = urlParams.get("ruc") || "N/A";
 document.getElementById("fecha").innerText = urlParams.get("fecha") || "N/A";
-document.getElementById("subtotal").innerText = urlParams.get("subtotal") || "0.00";
-document.getElementById("iva").innerText = urlParams.get("iva") || "0.00";
-document.getElementById("total").innerText = urlParams.get("total") || "0.00";
-document.getElementById("abonado").innerText = urlParams.get("abonado") || "0.00";
-document.getElementById("saldo").innerText = urlParams.get("saldo") || "0.00";
+
+// función para convertir a número y fijar a 2 decimales
+function formatToTwoDecimals(value) {
+    let num = parseFloat(value);
+    return isNaN(num) ? "0.00" : num.toFixed(2);
+}
+
+document.getElementById("subtotal").innerText = formatToTwoDecimals(urlParams.get("subtotal"));
+document.getElementById("iva").innerText = formatToTwoDecimals(urlParams.get("iva"));
+document.getElementById("total").innerText = formatToTwoDecimals(urlParams.get("total"));
+document.getElementById("abonado").innerText = formatToTwoDecimals(urlParams.get("abonado"));
+document.getElementById("saldo").innerText = formatToTwoDecimals(urlParams.get("saldo"));
+
 function populateTable(elementId, productos, precios, cantidades, totales) {
     let tableBody = document.getElementById(elementId);
     let productosArray = productos ? productos.split(",").map(i => i.trim()) : [];
-    let preciosArray = precios ? precios.split(",").map(i => parseFloat(i.trim()).toFixed(2)) : [];
+    let preciosArray = precios ? precios.split(",").map(i => formatToTwoDecimals(i.trim())) : [];
     let cantidadesArray = cantidades ? cantidades.split(",").map(i => i.trim()) : [];
-    let totalesArray = totales ? totales.split(",").map(i => parseFloat(i.trim()).toFixed(2)) : [];
+    let totalesArray = totales ? totales.split(",").map(i => formatToTwoDecimals(i.trim())) : [];
     tableBody.innerHTML = "";
     for (let i = 0; i < productosArray.length; i++) {
         let row = document.createElement("tr");
